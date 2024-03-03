@@ -125,6 +125,7 @@ def trace_path(cell_details, dest):
     for i in path:
         print("->", i, end=" ")
     print()
+    return path
  
 def aStar(matrix, src, dest):
     max_rows, max_cols = matrix.shape
@@ -189,9 +190,9 @@ def aStar(matrix, src, dest):
                     cell_details[new_i][new_j].parent_j = j
                     print("The destination cell is found")
                     # Trace and print the path from source to destination
-                    trace_path(cell_details, dest)
-                    found_dest = True
-                    return
+                    path = trace_path(cell_details, dest)
+                    found_dest = True 
+                    return path
                 else:
                     # Calculate the new f, g, and h values
                     g_new = cell_details[i][j].g + 1.0
@@ -229,7 +230,7 @@ src.append(map.map_info.points['start'][0])
 des.append(map.map_info.points['end'][1])
 des.append(map.map_info.points['end'][0])
 
-aStar(matrix, src, des)
+path = aStar(matrix, src, des)
 
 # Display the matrix
 matplotlib.use('Agg')

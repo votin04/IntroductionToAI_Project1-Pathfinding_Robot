@@ -114,9 +114,6 @@ def greedy_best_first_search(start, end, polygons):
     return None
 
 
-# Call the function and print the result
-path, cost = greedy_best_first_search(start, end, polygons)
-print(path)
-
-
-
+# # Call the function and print the result
+# path, cost = greedy_best_first_search(start, end, polygons)
+# print(path)

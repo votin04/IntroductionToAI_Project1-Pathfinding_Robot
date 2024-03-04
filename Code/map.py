@@ -150,17 +150,17 @@ class MapGenerator:
         return map_matrix
 
 
-'''TESTING SECTION'''                  
-map = Map()
-map.create('input.txt')
-print(map.map_info.map_limits)
-print(map.map_info.points)
-print(map.map_info.obstacles)
+# '''TESTING SECTION'''                  
+# map = Map()
+# map.create('input.txt')
+# print(map.map_info.map_limits)
+# print(map.map_info.points)
+# print(map.map_info.obstacles)
 
-# Display the matrix
-matplotlib.use('Agg')
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-# Add colorbar for reference
-plt.colorbar()
-plt.title('Map Matrix')
-plt.savefig("matplotlib.png")
+# # Display the matrix
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# # Add colorbar for reference
+# plt.colorbar()
+# plt.title('Map Matrix')
+# plt.savefig("matplotlib.png")

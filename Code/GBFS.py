@@ -82,7 +82,7 @@ def is_crossing_polygon(p1, p2, polygons):
 
 
 # Define a function to implement the greedy best first search algorithm
-def greedy_best_first_search(start, end, polygons):
+def greedy_best_first_search(start, end, map_obj):
     queue = [(euclidean(start, end), start)]
     visited = set()  # Initialize the set of visited points
     parent = {}  # Initialize the dictionary of parent points
@@ -103,15 +103,14 @@ def greedy_best_first_search(start, end, polygons):
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             x = current[0] + dx
             y = current[1] + dy
-            # Check if the point is within the space limit and not inside any polygon
-            if 0 <= x < space_limit[0] and 0 <= y < space_limit[1] and not is_inside_polygon((x, y), polygons) and (x, y) not in visited:
-                # Check if the line segment from current to next does not cross any polygon
-                if not is_crossing_polygon(current, (x, y), polygons):
-                    h = euclidean((x, y), end)
-                    heapq.heappush(queue, (h, (x, y)))
-                    visited.add((x, y))  # Mark the current point as visited
-                    parent[(x, y)] = current
+            
+            if 0 <= x < map_obj.map_info.map_limits['col_num'] and 0 <= y < map_obj.map_info.map_limits['row_num'] and map_obj.matrix[y][x] != 1 and (x, y) not in visited:
+                h = euclidean((x, y), end)
+                heapq.heappush(queue, (h, (x, y)))
+                visited.add((x, y))  # Mark the current point as visited
+                parent[(x, y)] = current
     return None
+
 
 
 # # Call the function and print the result

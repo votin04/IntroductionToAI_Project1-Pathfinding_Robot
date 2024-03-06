@@ -1,6 +1,8 @@
 # Project1-Pathfinding_Robot
-Project 1 - AI
 
+GENERAL TASKS
+
+Project 1 - AI 
 
 NHIỆM VỤ:
 -Kim: Mức 1, chọn 1 thuật toán trong tìm kiếm mù hoặc tham lam hoặc heuristic hoặc local search, cài đặt, chạy thử, báo cáo. Lưu ý, chạy thử trường hợp không có
@@ -20,4 +22,19 @@ NHIỆM VỤ:
 +Quay video và đính kèm trực tiếp/link vào báo cáo cho mức 4
 
 -Mức 5: Nếu còn thời gian và muốn làm <3
+
+
+MINUTES HỌP (6/3/2024)
+
+TASKS
+1. Thiếu total_cost để compare() - Thành viên làm thuật toán
+2. Tạo grid - Phúc 
+3. Tính trường hợp không có dường đi (sửa input.txt và thuật toán) - Phúc
+    3.1 input ko có đường đi
+    3.2 input sao cho các thuật toán tìm đường khác nhau 
+4. Điều chỉnh thuật toán GBFS -> đi xéo - Kim
+5. Iterative Deepening -> Để làm mức 3 - Long
+6. Tìm hiểu về thư viện graphics - Phúc
+
+DEADLINE: 8/3/2024
 

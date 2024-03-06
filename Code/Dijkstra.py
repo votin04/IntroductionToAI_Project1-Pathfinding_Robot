@@ -1,4 +1,3 @@
-# Library for INT_MAX
 from map import *
 import numpy as np
 import heapq

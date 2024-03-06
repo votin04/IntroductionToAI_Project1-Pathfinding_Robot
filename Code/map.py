@@ -163,4 +163,5 @@ plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 # Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
+plt.grid(True)
 plt.savefig("matplotlib.png")

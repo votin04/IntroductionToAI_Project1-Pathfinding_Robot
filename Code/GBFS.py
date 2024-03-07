@@ -1,5 +1,4 @@
 import heapq
-import matplotlib.pyplot as plt
 
 class GBFS:
     def __init__(self, space_limit, start, end, polygons):
@@ -116,32 +115,3 @@ class GBFS:
                         parent[(x, y)] = current
         return None
 
-# Call the function and print the result
-import matplotlib.pyplot as plt
-import numpy as np
-from map import Map
-from GBFS import GBFS
-
-# Create map object and read data from input.txt file
-map = Map()
-map.create('input.txt')
-
-# Initialize GBFS object with necessary parameters
-gbfs = GBFS(map.matrix, map.map_info.points['start'], map.map_info.points['end'], map.map_info.obstacles)
-
-# Find the best path using the GBFS algorithm
-path, _ = gbfs.greedy_best_first_search()
-cost = gbfs.total_cost(path)
-
-# Display the result
-print("Path:", path)
-print("Cost:", cost)
-
-# Plot the found path on the map matrix
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-shortest_path = np.array(path)
-plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha= 0.5)
-plt.colorbar()
-plt.title('Map Matrix')
-plt.savefig("matplotlib.png")
-plt.show()

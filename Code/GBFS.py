@@ -135,16 +135,16 @@ gbfs = GBFS(matrix, limits, src, des, polygons)
 path, _ = gbfs.greedy_best_first_search()
 cost = gbfs.total_cost(path)
 
-# Display the result
-# print("Path:", path)
-# print("Cost:", cost)
+# # Display the result
+# # print("Path:", path)
+# # print("Cost:", cost)
 
 # Display
 matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
 shortest_path = np.array(path)
-plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
 
 # Add colorbar for reference
 plt.colorbar()

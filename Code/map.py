@@ -152,7 +152,7 @@ class MapGenerator:
 
 # '''TESTING SECTION'''                  
 # map = Map()
-# map.create("./Test_cases/maximum_obstacles.txt")
+# map.create("Test_cases/no_path.txt")
 # print(map.map_info.map_limits)
 # print(map.map_info.points)
 # print(map.map_info.obstacles)
@@ -163,4 +163,4 @@ class MapGenerator:
 # # Add colorbar for reference
 # plt.colorbar()
 # plt.title('Map Matrix')
-# plt.savefig("matplotlib.png")
+# plt.savefig("map.png")

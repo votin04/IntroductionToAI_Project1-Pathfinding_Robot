@@ -20,12 +20,7 @@ class GBFS:
     
      # Define a function to calculate the total cost of the path 
     def total_cost(self, path):
-        cost = 0
-        for i in range(len(path) - 1):
-            x1, y1 = path[i]
-            x2, y2 = path[i+1]
-            cost += self.euclidean((x1,y1),(x2,y2))
-        return cost
+        return len(path) - 1
     
     # Define a function to check if a point is inside any polygon
     def is_inside_polygon(self, point):

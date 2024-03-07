@@ -1,7 +1,8 @@
 import heapq
 
 class GBFS:
-    def __init__(self, space_limit, start, end, polygons):
+    def __init__(self, matrix, space_limit, start, end, polygons):
+        self.matrix = matrix
         self.space_limit = space_limit
         self.start = start
         self.end = end
@@ -106,7 +107,7 @@ class GBFS:
                 y = current[1] + dy
 
                 # Check if the new point is within map boundaries and not visited
-                if 0 <= x < len(self.space_limit[0]) and 0 <= y < len(self.space_limit) and self.space_limit[y][x] != 1 and (x, y) not in visited:
+                if 0 <= x < self.space_limit[0] and 0 <= y < self.space_limit[1] and self.matrix[y][x] != 1 and (x, y) not in visited:
                     # Check if the new point is not inside any polygon
                     if not self.is_inside_polygon((x, y)):
                         h = self.euclidean((x, y), self.end)
@@ -123,7 +124,20 @@ map = Map()
 map.create('./Test_cases/maximum_obstacles.txt')
 
 #Find a path
+matrix = map.matrix
+limits = (map.map_info.map_limits['col_num'], map.map_info.map_limits['row_num'])
+src = map.map_info.points['start']
+des = map.map_info.points['end']
+polygons = map.map_info.obstacles
 
+gbfs = GBFS(matrix, limits, src, des, polygons)
+
+path, _ = gbfs.greedy_best_first_search()
+cost = gbfs.total_cost(path)
+
+# Display the result
+# print("Path:", path)
+# print("Cost:", cost)
 
 # Display
 matplotlib.use('Agg')

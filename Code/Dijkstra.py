@@ -86,7 +86,7 @@ des_y=map.map_info.points['end'][1]
 des_x=map.map_info.points['end'][0]
 des= (des_y,des_x)
 
-path = dijkstra.dijkstra(src, des)
+path = dijkstra.dijkstra(src, des) 
 print("Result:",path)
 
 # Display the matrix
@@ -94,7 +94,7 @@ matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
 shortest_path = np.array(path)
-plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'r-', linewidth=2)
+plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
 # Add colorbar for reference
 plt.colorbar()

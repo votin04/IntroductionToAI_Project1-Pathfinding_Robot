@@ -10,7 +10,7 @@ map.create('input.txt')
 # print(map.map_info.map_limits)
 # print(map.map_info.points)
 # print(map.map_info.obstacles)
-path, cost = greedy_best_first_search(map.map_info.points['start'], map.map_info.points['end'], map.map_info.points['passing_points'])
+path, cost = greedy_best_first_search(map.map_info.points['start'], map.map_info.points['end'], map)
 
 for point in path:
     print(f"[{point[1]},{point[0]}]")

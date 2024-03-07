@@ -117,12 +117,15 @@ class GBFS:
 
 from map import *
 
-'''TESTING SECTION'''                  
+'''TESTING SECTION'''     
+# Create a map             
 map = Map()
 map.create('./Test_cases/maximum_obstacles.txt')
 
+#Find a path
 
 
+# Display
 matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 

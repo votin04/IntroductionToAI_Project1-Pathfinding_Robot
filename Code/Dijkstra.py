@@ -74,11 +74,13 @@ class Dijkstra:
 
 
 '''TESTING SECTION'''                  
+# Create a map
 map = Map()
 map.create("./Test_cases/maximum_obstacles.txt")
 
 dijkstra = Dijkstra(map.matrix)
 
+# Find a path
 src_y=map.map_info.points['start'][1]
 src_x=map.map_info.points['start'][0]
 src = (src_y,src_x)
@@ -87,16 +89,14 @@ des_x=map.map_info.points['end'][0]
 des= (des_y,des_x)
 
 path = dijkstra.dijkstra(src, des) 
-print("Result:",path)
 
-# Display the matrix
+# Display
 matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
 shortest_path = np.array(path)
 plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
-# Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
 plt.savefig("Dijkstra.png")

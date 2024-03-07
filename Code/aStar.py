@@ -215,39 +215,30 @@ def aStar(matrix, src, dest):
         print("Failed to find the destination cell")
  
 
-'''TESTING SECTION'''                  
+'''TESTING SECTION'''     
+# Create a map             
 map = Map()
 map.create('./Test_cases/maximum_obstacles.txt')
 
+# Find a path
 matrix = map.matrix
-
 src = []
 des = []
 
 src.append(map.map_info.points['start'][1])
 src.append(map.map_info.points['start'][0])
-
 des.append(map.map_info.points['end'][1])
 des.append(map.map_info.points['end'][0])
 
 path = aStar(matrix, src, des)
 
-# # Display the matrix
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-
-# # Add colorbar for reference
-# plt.colorbar()
-# plt.title('Map Matrix')
-# plt.savefig("matplotlib.png")
-
+# Display
 matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
 shortest_path = np.array(path)
 plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
-# Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
 plt.savefig("aStar.png")

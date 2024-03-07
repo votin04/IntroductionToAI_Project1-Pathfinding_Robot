@@ -32,9 +32,11 @@ TASKS
 3. Tính trường hợp không có dường đi (sửa input.txt và thuật toán) - Phúc
     3.1 input ko có đường đi
     3.2 input sao cho các thuật toán tìm đường khác nhau 
+    3.3 vẽ thêm kết quả total_cost lên hình
 4. Điều chỉnh thuật toán GBFS -> đi xéo - Kim
 5. Iterative Deepening -> Để làm mức 3 - Long
 6. Tìm hiểu về thư viện graphics - Phúc
+7. Viết hàm test tất cả thuật toán - Phúc
 
 DEADLINE: 8/3/2024
 

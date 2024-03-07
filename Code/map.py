@@ -152,7 +152,7 @@ class MapGenerator:
 
 '''TESTING SECTION'''                  
 map = Map()
-map.create('Test_cases\maximum_obstacles.txt')
+map.create("./Test_cases/maximum_obstacles.txt")
 print(map.map_info.map_limits)
 print(map.map_info.points)
 print(map.map_info.obstacles)

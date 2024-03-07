@@ -116,3 +116,27 @@ def greedy_best_first_search(start, end, map_obj):
 # # Call the function and print the result
 # path, cost = greedy_best_first_search(start, end, polygons)
 # print(path)
+
+import matplotlib as plt
+import matplotlib
+from map import *
+
+'''TESTING SECTION'''                  
+map = Map()
+map.create('./Test_cases/maximum_obstacles.txt')
+# print(map.map_info.map_limits)
+# print(map.map_info.points)
+# print(map.map_info.obstacles)
+path, cost = greedy_best_first_search(map.map_info.points['start'], map.map_info.points['end'], map)
+
+# Display the matrix
+matplotlib.use('Agg')
+plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+
+shortest_path = np.array(path)
+plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+
+# Add colorbar for reference
+plt.colorbar()
+plt.title('Map Matrix')
+plt.savefig("GBFS.png")

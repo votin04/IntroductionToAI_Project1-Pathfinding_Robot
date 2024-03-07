@@ -217,7 +217,7 @@ def aStar(matrix, src, dest):
 
 '''TESTING SECTION'''                  
 map = Map()
-map.create('input.txt')
+map.create('./Test_cases/maximum_obstacles.txt')
 
 matrix = map.matrix
 
@@ -232,11 +232,22 @@ des.append(map.map_info.points['end'][0])
 
 path = aStar(matrix, src, des)
 
-# Display the matrix
+# # Display the matrix
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+
+# # Add colorbar for reference
+# plt.colorbar()
+# plt.title('Map Matrix')
+# plt.savefig("matplotlib.png")
+
 matplotlib.use('Agg')
 plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+
+shortest_path = np.array(path)
+plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
 # Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
-plt.savefig("matplotlib.png")
+plt.savefig("aStar.png")

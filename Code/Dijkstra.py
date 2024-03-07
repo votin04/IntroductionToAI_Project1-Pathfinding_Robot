@@ -75,7 +75,7 @@ class Dijkstra:
 
 '''TESTING SECTION'''                  
 map = Map()
-map.create('input.txt')
+map.create("./Test_cases/maximum_obstacles.txt")
 
 dijkstra = Dijkstra(map.matrix)
 
@@ -99,4 +99,4 @@ plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5
 # Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
-plt.savefig("matplotlib.png")
+plt.savefig("Dijkstra.png")

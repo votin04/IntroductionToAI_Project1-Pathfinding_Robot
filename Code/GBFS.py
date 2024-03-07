@@ -149,4 +149,4 @@ plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5
 # Add colorbar for reference
 plt.colorbar()
 plt.title('Map Matrix')
-plt.savefig("aStar.png")
+plt.savefig("GBFS.png")

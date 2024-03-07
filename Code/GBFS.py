@@ -29,9 +29,9 @@ class GBFS:
     # Define a function to check if a point is inside any polygon
     def is_inside_polygon(self, point):
         x, y = point
-        oddNodes = False
         # Loop through all the polygons
         for polygon in self.polygons:
+            oddNodes = False
             j = len(polygon) - 1
             # Loop through all the edges of the polygon
             for i in range(len(polygon)):

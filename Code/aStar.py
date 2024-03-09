@@ -103,7 +103,7 @@ def calculate_h_value(row, col, dest):
     return ((row - dest[0]) ** 2 + (col - dest[1]) ** 2) ** 0.5
  
 def trace_path(cell_details, dest):
-    print("The Path is ")
+    # print("The Path is ")
     path = []
     row = dest[0]
     col = dest[1]
@@ -121,10 +121,10 @@ def trace_path(cell_details, dest):
     # Reverse the path to get the path from source to destination
     path.reverse()
  
-    # Print the path
-    for i in path:
-        print("->", i, end=" ")
-    print()
+    # # Print the path
+    # for i in path:
+    #     print("->", i, end=" ")
+    # print()
     return path
  
 def aStar(matrix, src, dest):
@@ -188,7 +188,7 @@ def aStar(matrix, src, dest):
                     # Set the parent of the destination cell
                     cell_details[new_i][new_j].parent_i = i
                     cell_details[new_i][new_j].parent_j = j
-                    print("The destination cell is found")
+                    # print("The destination cell is found")
                     # Trace and print the path from source to destination
                     path = trace_path(cell_details, dest)
                     found_dest = True 
@@ -215,30 +215,30 @@ def aStar(matrix, src, dest):
         print("Failed to find the destination cell")
  
 
-'''TESTING SECTION'''     
-# Create a map             
-map = Map()
-map.create('./Test_cases/maximum_obstacles.txt')
+# '''TESTING SECTION'''     
+# # Create a map             
+# map = Map()
+# map.create('./Test_cases/test4.txt')
 
-# Find a path
-matrix = map.matrix
-src = []
-des = []
+# # Find a path
+# matrix = map.matrix
+# src = []
+# des = []
 
-src.append(map.map_info.points['start'][1])
-src.append(map.map_info.points['start'][0])
-des.append(map.map_info.points['end'][1])
-des.append(map.map_info.points['end'][0])
+# src.append(map.map_info.points['start'][1])
+# src.append(map.map_info.points['start'][0])
+# des.append(map.map_info.points['end'][1])
+# des.append(map.map_info.points['end'][0])
 
-path = aStar(matrix, src, des)
+# path = aStar(matrix, src, des)
 
-# Display
-matplotlib.use('Agg')
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# # Display
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-shortest_path = np.array(path)
-plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+# shortest_path = np.array(path)
+# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
-plt.colorbar()
-plt.title('Map Matrix')
-plt.savefig("aStar.png")
+# plt.colorbar()
+# plt.title('Map Matrix')
+# plt.savefig("aStar.png")

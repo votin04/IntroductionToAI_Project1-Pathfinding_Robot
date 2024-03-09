@@ -111,37 +111,36 @@ class GBFS:
                         parent[(x, y)] = current
         return None
 
-from map import *
 
-'''TESTING SECTION'''     
-# Create a map             
-map = Map()
-map.create('./Test_cases/maximum_obstacles.txt')
+# '''TESTING SECTION'''     
+# # Create a map             
+# map = Map()
+# map.create('./Test_cases/test1.txt')
 
-#Find a path
-matrix = map.matrix
-limits = (map.map_info.map_limits['col_num'], map.map_info.map_limits['row_num'])
-src = map.map_info.points['start']
-des = map.map_info.points['end']
-polygons = map.map_info.obstacles
+# #Find a path
+# matrix = map.matrix
+# limits = (map.map_info.map_limits['col_num'], map.map_info.map_limits['row_num'])
+# src = map.map_info.points['start']
+# des = map.map_info.points['end']
+# polygons = map.map_info.obstacles
 
-gbfs = GBFS(matrix, limits, src, des, polygons)
+# gbfs = GBFS(matrix, limits, src, des, polygons)
 
-path, _ = gbfs.greedy_best_first_search()
-cost = gbfs.total_cost(path)
+# path, _ = gbfs.greedy_best_first_search()
+# cost = gbfs.total_cost(path)
 
-# # Display the result
-# # print("Path:", path)
-# # print("Cost:", cost)
+# # # Display the result
+# # # print("Path:", path)
+# # # print("Cost:", cost)
 
-# Display
-matplotlib.use('Agg')
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# # Display
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-shortest_path = np.array(path)
-plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
+# shortest_path = np.array(path)
+# plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
 
-# Add colorbar for reference
-plt.colorbar()
-plt.title('Map Matrix')
-plt.savefig("GBFS.png")
+# # Add colorbar for reference
+# plt.colorbar()
+# plt.title('Map Matrix')
+# plt.savefig("GBFS.png")

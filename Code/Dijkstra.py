@@ -73,30 +73,30 @@ class Dijkstra:
         return path
 
 
-'''TESTING SECTION'''                  
-# Create a map
-map = Map()
-map.create("./Test_cases/no_path.txt")
+# '''TESTING SECTION'''                  
+# # Create a map
+# map = Map()
+# map.create("./Test_cases/test1.txt")
 
-dijkstra = Dijkstra(map.matrix)
+# dijkstra = Dijkstra(map.matrix)
 
-# Find a path
-src_y=map.map_info.points['start'][1]
-src_x=map.map_info.points['start'][0]
-src = (src_y,src_x)
-des_y=map.map_info.points['end'][1]
-des_x=map.map_info.points['end'][0]
-des= (des_y,des_x)
+# # Find a path
+# src_y=map.map_info.points['start'][1]
+# src_x=map.map_info.points['start'][0]
+# src = (src_y,src_x)
+# des_y=map.map_info.points['end'][1]
+# des_x=map.map_info.points['end'][0]
+# des= (des_y,des_x)
 
-path = dijkstra.dijkstra(src, des) 
-# Display
-matplotlib.use('Agg')
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# path = dijkstra.dijkstra(src, des) 
+# # Display
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-if path:
-    shortest_path = np.array(path)
-    plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
+# if path:
+#     shortest_path = np.array(path)
+#     plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
 
-plt.colorbar()
-plt.title('Map Matrix')
-plt.savefig("Dijkstra.png")
+# plt.colorbar()
+# plt.title('Map Matrix')
+# plt.savefig("Dijkstra.png")

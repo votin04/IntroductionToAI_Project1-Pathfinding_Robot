@@ -12,10 +12,8 @@ class Cell:
         self.g = float('inf')
         self.h = 0
 class AStar:
-    def __init__(self, matrix, src, des, points):
+    def __init__(self, matrix, points):
         self.matrix = matrix
-        self.src = self.reverse_tuple(src)
-        self.des = self.reverse_tuple(des)
         self.points = points
 
         for i in range(len(points)):
@@ -221,7 +219,11 @@ class AStar:
         return finalPath
 
     
-# '''TESTING SECTION'''     
+'''TESTING SECTION'''  
+
+''''
+    To use the AStar Function please use the reverse_tuple from AStar class in order to use the aStar function
+'''
 # Create a map             
 map = Map()
 map.create('./Test_cases/test1.txt')
@@ -231,6 +233,9 @@ src = map.map_info.points['start']
 des = map.map_info.points['end']
 
 searchPath = AStar(matrix, src, des, points)
+
+src = searchPath.reverse_tuple(src)
+des = searchPath.reverse_tuple(des)
 
 #path = searchPath.findPickUp()
 path = searchPath.aStar(src, des)

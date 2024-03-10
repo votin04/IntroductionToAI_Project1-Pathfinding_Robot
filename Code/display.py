@@ -17,14 +17,17 @@ class aStar_wrapper:
         self.name = 'AStar'
 
     def find_path(self) -> list :
-        src = []
-        des = []
-        src.append(self.map.map_info.points['start'][1])
-        src.append(self.map.map_info.points['start'][0])
-        des.append(self.map.map_info.points['end'][1])
-        des.append(self.map.map_info.points['end'][0])
+        matrix = self.map.matrix
+        src = self.map.map_info.points['start']
+        des = self.map.map_info.points['end']
+        points = [self.map.map_info.points['start'], self.map.map_info.points['end'], self.map.map_info.points['passing_points']]
+        path_finder = AStar(matrix, points)
 
-        self.path = aStar(self.map.matrix, src, des)
+        src = path_finder.reverse_tuple(src)
+        des = path_finder.reverse_tuple(des)
+
+        self.path = path_finder.aStar(src, des)
+        # self.path = path_finder.findPickUp()
 
         if self.path is not None:
             for i in range(len(self.path)):

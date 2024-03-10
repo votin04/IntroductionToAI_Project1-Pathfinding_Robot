@@ -2,85 +2,7 @@ from queue import PriorityQueue
 from map import *
 import math
 import heapq
-
-# def h(cell1, cell2):
-#     x1,y1 = cell1
-#     x2,y2 = cell2
-#     return abs(x1 - x2) + abs(y1 - y2)
-
-# def aStar(m, start=None, end=None):
-#     #list of coordinates of all cells in the grid
-#     grid = m.grid()
-#     directions=["L","R","U", "D", "UL", "UR", "DL", "DR"]
-
-#     #declare first value for the g_score and f_score to calculate distance
-#     g_score={cell:float('inf') for cell in grid}
-#     g_score[start]= 0
-#     f_score={cell:float('inf') for cell in grid}
-#     f_score[start]=h(start, end)
-
-#     #open the priority queue
-#     open=PriorityQueue()
-#     open.put((h(start, end), h(start, end), start))
-
-#     #declare the dictionary to hold the path from start to goal, each node will store it's parent as the value and it will be the key 
-#     aPath={}
-
-#     while not open.empty():
-#         #get the value of the calculating point
-#         currCell=open.get()[2]
-#         if currCell==(1,1):
-#             break
-#         for d in directions:
-#             if d=="L":
-#                 childCell=(currCell[0], currCell[1]-1)
-#             if d=="R":
-#                 childCell=(currCell[0], currCell[1]+1)
-#             if d=="U":
-#                 childCell=(currCell[0]-1, currCell[1])
-#             if d=="D":
-#                 childCell=(currCell[0]+1, currCell[1])
-#             if d=="UL":
-#                 childCell=(currCell[0]-1, currCell[1]-1)
-#             if d=="UR":
-#                 childCell=(currCell[0]-1, currCell[1]+1)
-#             if d=="DL":
-#                 childCell=(currCell[0]+1, currCell[1]-1)
-#             if d=="DR":
-#                 childCell=(currCell[0]+1, currCell[1]+1)
-            
-#             x,y=childCell
-
-#             if m.matrix[x][y]==0:
-            
-#             # if m.maze_map[currCell][d]==True:
-#             #     if d=='E':
-#             #         childCell=(currCell[0], currCell[1]+1)
-#             #     if d=='W':
-#             #         childCell=(currCell[0], currCell[1]-1)
-#             #     if d=='N':
-#             #         childCell=(currCell[0]-1, currCell[1])
-#             #     if d=='S':
-#             #         childCell=(currCell[0]+1, currCell[1])
-
-#                 temp_g_score=g_score[currCell]+1
-#                 temp_f_score=temp_g_score + h(childCell, (1,1))
-
-#                 if temp_f_score < f_score[childCell]:
-#                     g_score[childCell] = temp_g_score
-#                     f_score[childCell] = temp_f_score
-#                     open.put((temp_f_score, h(childCell,(1,1)), childCell))
-#                     aPath[childCell]=currCell
-
-#     fwdPath={}
-#     cell=(1,1)
-
-#     #this while loop will execute on the path from the goal to the start point
-#     while cell != start:
-#         fwdPath[aPath[cell]]=cell
-#         cell=aPath[cell]
-#     return fwdPath
-
+import itertools
 class Cell:
     def __init__(self):
         self.parent_i = 0
@@ -94,7 +16,7 @@ def is_valid(row, col, max_rows, max_cols):
     return (row >= 0) and (row < max_rows) and (col >= 0) and (col < max_cols)
 
 def is_unblocked(grid, row, col):
-    return grid[row][col] == 2 or grid[row][col] == 4 or grid[row][col] == 0
+    return grid[row][col] == 2 or grid[row][col] == 4 or grid[row][col] == 3 or grid[row][col] == 0
 
 def is_destination(row, col, dest):
     return row == dest[0] and col == dest[1]
@@ -121,10 +43,6 @@ def trace_path(cell_details, dest):
     # Reverse the path to get the path from source to destination
     path.reverse()
  
-    # # Print the path
-    # for i in path:
-    #     print("->", i, end=" ")
-    # print()
     return path
  
 def aStar(matrix, src, dest):
@@ -136,12 +54,12 @@ def aStar(matrix, src, dest):
  
     # Check if the source and destination are unblocked
     if not is_unblocked(matrix, src[0], src[1]) or not is_unblocked(matrix, dest[0], dest[1]):
-        print("Source or the destination is blocked")
+        # print("Source or the destination is blocked")
         return
  
     # Check if we are already at the destination
     if is_destination(src[0], src[1], dest):
-        print("We are already at the destination")
+        # print("We are already at the destination")
         return
  
     # Initialize the closed list (visited cells)
@@ -213,32 +131,112 @@ def aStar(matrix, src, dest):
     # If the destination is not found after visiting all cells
     if not found_dest:
         print("Failed to find the destination cell")
- 
 
+def reverse_tuple(t):
+    new_tuple = ()
+    for i in range(len(t)-1, -1, -1):
+        new_tuple += (t[i],)
+    return new_tuple
+
+def findPickUp(matrix, start, end, points):
+    size = len(points) + 2
+
+    # Initialize distance matrix with zeros
+    result = [[0] * size for _ in range(size)]
+
+    # Create a list containing start, end, and all points
+    startPoint = tuple(start) 
+    endPoint = tuple(end)
+
+    point_list = [startPoint] + points + [endPoint]
+
+    # Calculate distances and populate the matrix
+    for i, (x1, y1) in enumerate(point_list):
+        for j, (x2, y2) in enumerate(point_list):
+            # Calculate Euclidean distance between points
+            startList = []
+            endList = []
+
+            startList.append(y1)
+            startList.append(x1)
+
+            endList.append(y2)
+            endList.append(x2)
+
+            path = aStar(matrix, startList, endList)
+            if path != None:
+                result[i][j] = len(path)
+
+    startPoint += (0,)
+    endPoint   += (size - 1,)
+    index = 1
+
+    for i in range(len(points)):
+        points[i] += (index,)
+        index += 1
+    
+    # Using Permutation To Check Traverse Random PickUp Points
+    permutatePath =  list(itertools.permutations(points))
+
+    paths = []
+    # Concatenate start and end points to each permutation
+    for perm in permutatePath:
+    # Concatenate start and end points to each permutation
+        path = [startPoint] + list(perm) + [endPoint]
+        paths.append(path)
+
+    # Calculate the total cost from path
+    max = 1000000
+    total = 0
+    shortestPath = []
+    for path in paths:
+        for i in range(len(path)-1):
+            total += result[path[i][2]][path[i+1][2]]
+        if max > total:
+            max = total
+            shortestPath = path
+    
+    res = []
+    for i in shortestPath:
+        i = list(i)
+        i.pop(2)
+        res.append(tuple(i))
+
+    finalPath = []
+
+    for i in range(len(res) - 1):
+        path = aStar(matrix, res[i], res[i+1])
+        finalPath = finalPath + path[1:]
+
+    return finalPath
+
+    
 # '''TESTING SECTION'''     
-# # Create a map             
-# map = Map()
-# map.create('./Test_cases/test4.txt')
+# Create a map             
+map = Map()
+map.create('./Test_cases/test1.txt')
+matrix = map.matrix
+points = map.map_info.points['passing_points']
 
-# # Find a path
-# matrix = map.matrix
-# src = []
-# des = []
+# Reverse points to apply into matplotlib
+for i in range(len(points)):
+    points[i] = reverse_tuple(points[i])
 
-# src.append(map.map_info.points['start'][1])
-# src.append(map.map_info.points['start'][0])
-# des.append(map.map_info.points['end'][1])
-# des.append(map.map_info.points['end'][0])
+src = reverse_tuple(map.map_info.points['start'])
+des = reverse_tuple(map.map_info.points['end'])
 
-# path = aStar(matrix, src, des)
+path = findPickUp(matrix, src, des, points)
 
-# # Display
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-# shortest_path = np.array(path)
-# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+# Display
+matplotlib.use('Agg')
+plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-# plt.colorbar()
-# plt.title('Map Matrix')
-# plt.savefig("aStar.png")
+shortest_path = np.array(path)
+plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+
+plt.colorbar()
+plt.title('Map Matrix')
+plt.savefig("aStar.png")
+
+

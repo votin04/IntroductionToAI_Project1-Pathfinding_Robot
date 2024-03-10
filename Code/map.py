@@ -29,7 +29,7 @@ class MapInfo:
                        'end': (0, 0), 
                        'passing_points': []} # dictionary of points: 1st point is start, 2nd point is end
         self.obstacles = [] # list of shapes where each shape is a list of point tuple
-
+    
     def set_map_limits(self, col_num, row_num):
         self.map_limits['col_num'] = col_num
         self.map_limits['row_num'] = row_num

@@ -62,7 +62,7 @@ class AStar:
             return
     
         # Check if the source and destination are unblocked
-        if not self.is_unblocked(self.matrix, src[0], src[1]) or not self.is_unblocked(self.matrix, des[0], des[1]):
+        if not self.is_unblocked(matrix, src[0], src[1]) or not self.is_unblocked(matrix, des[0], des[1]):
             # print("Source or the destination is blocked")
             return
     
@@ -109,7 +109,7 @@ class AStar:
                 new_j = j + dir[1]
     
                 # If the successor is valid, unblocked, and not visited
-                if self.is_valid(new_i, new_j, max_rows, max_cols) and self.is_unblocked(self.matrix, new_i, new_j) and not closed_list[new_i][new_j]:
+                if self.is_valid(new_i, new_j, max_rows, max_cols) and self.is_unblocked(matrix, new_i, new_j) and not closed_list[new_i][new_j]:
                     # If the successor is the destination
                     if self.is_destination(new_i, new_j, des):
                         # Set the parent of the destination cell
@@ -182,7 +182,7 @@ class AStar:
         index = 1
 
         for i in range(len(self.points)):
-            self.points[i] += (index,)
+            points[i] += (index,)
             index += 1
         
         # Using Permutation To Check Traverse Random PickUp Points
@@ -221,36 +221,36 @@ class AStar:
         return finalPath
 
     
-# '''TESTING SECTION'''  
+'''TESTING SECTION'''  
 
-# ''''
-#     To use the AStar Function please use the reverse_tuple from AStar class in order to use the aStar function
-# '''
-# # Create a map             
-# map = Map()
-# map.create('./Test_cases/test1.txt')
-# matrix = map.matrix
-# points = map.map_info.points['passing_points']
-# src = map.map_info.points['start']
-# des = map.map_info.points['end']
+''''
+    To use the AStar Function please use the reverse_tuple from AStar class in order to use the aStar function
+'''
+# Create a map             
+map = Map()
+map.create('./Test_cases/test1.txt')
+matrix = map.matrix
+points = map.map_info.points['passing_points']
+src = map.map_info.points['start']
+des = map.map_info.points['end']
 
-# searchPath = AStar(matrix, src, des, points)
+searchPath = AStar(matrix, src, des, points)
 
-# src = searchPath.reverse_tuple(src)
-# des = searchPath.reverse_tuple(des)
+src = searchPath.reverse_tuple(src)
+des = searchPath.reverse_tuple(des)
 
 path = searchPath.findPickUp()
 # path = searchPath.aStar(src, des)
-# #path = searchPath.findPickUp()
-# path = searchPath.aStar(src, des)
 
-# # Display
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# Display
+matplotlib.use('Agg')
+plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
-# shortest_path = np.array(path)
-# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
+shortest_path = np.array(path)
+plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 
-# plt.colorbar()
-# plt.title('Map Matrix')
-# plt.savefig("aStar.png")
+plt.colorbar()
+plt.title('Map Matrix')
+plt.savefig("aStar.png")
+
+

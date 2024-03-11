@@ -23,7 +23,14 @@ class aStar_wrapper:
         des.append(self.map.map_info.points['end'][1])
         des.append(self.map.map_info.points['end'][0])
 
-        self.path = aStar(self.map.matrix, src, des)
+        points = self.map.map_info.points['passing_points']
+
+        searchPath = AStar(self.map.matrix, src, des, points)
+        
+        src = searchPath.reverse_tuple(src)
+        des = searchPath.reverse_tuple(des)
+        
+        self.path = searchPath.aStar(src, des)
 
         if self.path is not None:
             for i in range(len(self.path)):

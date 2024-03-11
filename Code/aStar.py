@@ -12,9 +12,11 @@ class Cell:
         self.g = float('inf')
         self.h = 0
 class AStar:
-    def __init__(self, matrix, points):
+    def __init__(self, matrix, src, des, points):
         self.matrix = matrix
         self.points = points
+        self.src = self.reverse_tuple(src)
+        self.des = self.reverse_tuple(des)
 
         for i in range(len(points)):
             self.points[i] = self.reverse_tuple(self.points[i])
@@ -237,8 +239,8 @@ searchPath = AStar(matrix, src, des, points)
 src = searchPath.reverse_tuple(src)
 des = searchPath.reverse_tuple(des)
 
-#path = searchPath.findPickUp()
-path = searchPath.aStar(src, des)
+path = searchPath.findPickUp()
+# path = searchPath.aStar(src, des)
 
 # Display
 matplotlib.use('Agg')

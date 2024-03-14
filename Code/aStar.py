@@ -3,6 +3,7 @@ from map import *
 import math
 import heapq
 import itertools
+
 class Cell:
     def __init__(self):
         self.parent_i = 0
@@ -216,11 +217,13 @@ class AStar:
 
         for i in range(len(res) - 1):
             path = self.aStar(res[i], res[i+1])
-            finalPath = finalPath + path[1:]
+            if path is not None:
+                finalPath = finalPath + path[1:]
 
         return finalPath
 
     
+# '''TESTING SECTION'''  
 # '''TESTING SECTION'''  
 
 # ''''
@@ -235,16 +238,22 @@ class AStar:
 # des = map.map_info.points['end']
 
 # searchPath = AStar(matrix, src, des, points)
+# searchPath = AStar(matrix, src, des, points)
 
 # src = searchPath.reverse_tuple(src)
 # des = searchPath.reverse_tuple(des)
+# src = searchPath.reverse_tuple(src)
+# des = searchPath.reverse_tuple(des)
 
-# path = searchPath.findPickUp()
+path = searchPath.findPickUp()
+# path = searchPath.aStar(src, des)
 
-# # Display
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# Display
+matplotlib.use('Agg')
+plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
+# shortest_path = np.array(path)
+# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 # shortest_path = np.array(path)
 # plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
 

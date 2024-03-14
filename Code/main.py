@@ -22,11 +22,11 @@ while True:
         obstacles = map.map_info.update_obstacle(dx, dy)
         map.createWithNewObstacles(obstacles)
         # Display the matrix
-        matplotlib.use('Agg')
+        matplotlib.use('pillow')
         plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
         # Add colorbar for reference
         plt.title('Map Matrix')
-        plt.savefig("map.png")
+        plt.savefig("map.gif")
         time.sleep(0)
 
     

@@ -5,7 +5,6 @@ from aStar import *
 
 import os
 import matplotlib.pyplot as plt
-import copy
 import numpy as np
 
 # A wrapper for aStar algorithm
@@ -20,20 +19,11 @@ class aStar_wrapper:
         matrix = self.map.matrix
         src = self.map.map_info.points['start']
         des = self.map.map_info.points['end']
-        points = [self.map.map_info.points['start'], self.map.map_info.points['end'], self.map.map_info.points['passing_points']]
-        path_finder = AStar(matrix, points)
-
-        src = path_finder.reverse_tuple(src)
-        des = path_finder.reverse_tuple(des)
-
         points = self.map.map_info.points['passing_points']
 
-        searchPath = AStar(self.map.matrix, src, des, points)
+        path_finder = AStar(matrix, src, des, points)
         
-        src = searchPath.reverse_tuple(src)
-        des = searchPath.reverse_tuple(des)
-        
-        self.path = searchPath.aStar(src, des)
+        self.path = path_finder.findPickUp()
 
         if self.path is not None:
             for i in range(len(self.path)):
@@ -135,9 +125,12 @@ class Displayer:
             shortest_path = np.array(path)
             ax.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=1)
 
-            # Mark start and end points with 'S' and 'G'
-            plt.text(shortest_path[0][0], shortest_path[0][1], 'S', color='white', fontsize=12, ha='center', va='center')
-            plt.text(shortest_path[len(shortest_path) - 1][0], shortest_path[len(shortest_path) - 1][1], 'G', color='white', fontsize=12, ha='center', va='center')
+        start = self.map.map_info.points['start']        
+        end = self.map.map_info.points['end']        
+
+        # Mark start and end points with 'S' and 'G'
+        plt.text(start[0], start[1], 'S', color='white', fontsize=12, ha='center', va='center')
+        plt.text(end[0], end[1], 'G', color='white', fontsize=12, ha='center', va='center')
 
     def set_axis(self):
         # Set ticks and labels for x-axis and y-axis
@@ -147,7 +140,7 @@ class Displayer:
     def draw_grid(self):
         plt.grid(which="both", color="black", linewidth=0.5, alpha=0.2)
 
-    def draw(self, path, cost, name):
+    def draw(self, path, cost, name, output_folder):
         matplotlib.use('Agg')
         fig, ax = plt.subplots()
 
@@ -167,24 +160,31 @@ class Displayer:
         self.draw_grid()
 
         plt.title(f"{name} - Cost: {cost}")
-        plt.savefig(f"Results/{name}.png")
+
+        # Save plot
+        if os.path.exists(f"{output_folder}/") == False:
+            os.makedirs(f"{output_folder}/")
+        plt.savefig(f"{output_folder}/{name}.png")
         plt.close()
 
 class AlgorithmTester:
-    def __init__(self, algorithms, map_folder='./Test_cases'):
+    '''Pass into this class list of algorithm classes that you want to run, 
+    source test case folder and destination folder used to store all results'''
+    def __init__(self, algorithms, input_folder, ouput_folder):
         self.algorithms = algorithms
-        self.map_folder = map_folder
+        self.input_folder = input_folder
+        self.output_folder = ouput_folder
 
     def run_tests(self):
-        for filename in os.listdir(self.map_folder):
+        for filename in os.listdir(self.input_folder):
             # Iterate through all inputs
             if filename.endswith(".txt"):
-                file_path = os.path.join(self.map_folder, filename)
+                file_path = os.path.join(self.input_folder, filename)
 
                 # Create a map for this input
                 map = Map()
                 map.create(file_path)
-                
+
                 # Create a displayer for this input
                 displayer = Displayer(map)
 
@@ -197,7 +197,7 @@ class AlgorithmTester:
                     path, cost = self.run_test(algorithm_class, map)
 
                     # Display
-                    displayer.draw(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}")
+                    displayer.draw(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}", self.output_folder)
 
     def run_test(self, algorithm_class, map):
         # Run the algorithm
@@ -207,7 +207,12 @@ class AlgorithmTester:
 
         return path, cost
     
+# '''LEVEL 1 & 2'S TESTING SECTION'''
+# algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
+# tester = AlgorithmTester(algorithms, 'Test_cases_level1&2', 'Results_level1&2')
+# tester.run_tests()
 
-algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
-tester = AlgorithmTester(algorithms)
-tester.run_tests()
+# '''LEVEL 3'S TESTING SECTION'''
+# algorithms_ = [aStar_wrapper]
+# tester_ = AlgorithmTester(algorithms_, 'Test_cases_level3', 'Results_level3')
+# tester_.run_tests()

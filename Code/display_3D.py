@@ -1,49 +1,11 @@
 from map_3D import *
-from display import *
+from display import Dijkstra_wrapper, aStar_wrapper, GBFS_wrapper
 
 import os
 import matplotlib.pyplot as plt
 import numpy as np
 import plotly.graph_objects as go
 
-
-class AlgorithmTester_3D:
-    def __init__(self, algorithms, map_folder):
-        self.algorithms = algorithms
-        self.map_folder = map_folder
-
-    def run_tests(self):
-        for filename in os.listdir(self.map_folder):
-            # Iterate through all inputs
-            if filename.endswith(".txt"):
-                file_path = os.path.join(self.map_folder, filename)
-
-                # Create a map for this input
-                map = Map_3D()
-                map.create(file_path)
-                
-                # Create a displayer for this input
-                displayer = Displayer_3D(map)
-
-                # Find path with each iterated algorithm
-                for algorithm_class in self.algorithms:
-                    algorithm_name = algorithm_class.name
-                    print(f"Running tests for {algorithm_name}...")
-
-                    # Find path
-                    path, cost = self.run_test(algorithm_class, map)
-
-                    # Display
-                    displayer.draw_3d(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}")
-
-    def run_test(self, algorithm_class, map):
-        # Run the algorithm
-        algorithm_instance = algorithm_class(map)
-        path = algorithm_instance.find_path()
-        cost = algorithm_instance.find_cost()
-
-        return path, cost
-    
 class Displayer_3D:
     map = Map_3D()
 
@@ -69,10 +31,11 @@ class Displayer_3D:
             self.map.matrix[point[1]][point[0]] = 1
             self.cube[0][point[1]][point[0]] = 1
 
-    def draw_shape_3D(self, vertices, height):
-        # Draw filled polygon with colormap
-        x, y, z = zip(*vertices)  # Separate vertices into x, y, z coordinates
-        self.cube[y, x, 0] = 1
+    def draw_shape_3D(self, fig):
+        # Draw obstacles
+        for obstacle in self.map.map_info.obstacles_3D:
+            x, y, z = zip(*obstacle)
+            fig.add_trace(go.Mesh3d(x=x, y=y, z=z, opacity=0.5, color='blue'))
 
     def draw_path(self, fig, path):
         if path:
@@ -84,10 +47,10 @@ class Displayer_3D:
         end = self.map.map_info.points['end']
 
         # Mark start and end points with 'S' and 'G'
-        fig.add_trace(go.Scatter3d(x=[start[0]], y=[start[1]], z=[0], mode='text', text='S', textposition='top center', textfont=dict(size=12, color='white')))
-        fig.add_trace(go.Scatter3d(x=[end[0]], y=[end[1]], z=[0], mode='text', text='G', textposition='top center', textfont=dict(size=12, color='white')))
+        fig.add_trace(go.Scatter3d(x=[start[0]], y=[start[1]], z=[0], mode='text', text='S', textposition='top center', textfont=dict(size=12, color='red')))
+        fig.add_trace(go.Scatter3d(x=[end[0]], y=[end[1]], z=[0], mode='text', text='G', textposition='top center', textfont=dict(size=12, color='red')))
 
-    def draw_3d(self, path, cost, name):
+    def draw_3d(self, path, cost, name, output_folder):
         # Create a 3D scatter plot for the cube
         fig = go.Figure(data=[go.Scatter3d(x=[0]*self.map.map_info.map_limits['col_num'],
                                         y=list(range(self.map.map_info.map_limits['row_num']))*self.map.map_info.map_limits['col_num'],
@@ -98,16 +61,10 @@ class Displayer_3D:
                                                     colorscale='plasma'))])
 
         # Draw obstacles
-        for obstacle in self.map.map_info.obstacles_3D:
-            x, y, z = zip(*obstacle)
-            fig.add_trace(go.Mesh3d(x=x, y=y, z=z, opacity=0.5, color='blue'))
+        self.draw_shape_3D(fig)
 
         # Draw path
-        if path:
-            path_ = np.array(path)
-            path_trace = go.Scatter3d(x=path_[:, 0], y=path_[:, 1], z=np.zeros_like(path_[:, 0]),
-                                    mode='markers', marker=dict(size=5, color='green'))
-            fig.add_trace(path_trace)
+        self.draw_path(fig, path)
 
         # Set axis labels
         fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
@@ -116,10 +73,48 @@ class Displayer_3D:
         fig.update_layout(title=f"{name} - Cost: {cost}")
 
         # Save or show the plot
-        if os.path.exists("Results_3D/") is False:
-            os.makedirs("Results_3D")
-        fig.write_html(f"Results_3D/{name}.html")
+        if os.path.exists(f"{output_folder}/") == False:
+            os.makedirs(f"{output_folder}")
+        fig.write_html(f"{output_folder}/{name}.html")
 
+class AlgorithmTester_3D:
+    def __init__(self, algorithms, input_folder, output_folder):
+        self.algorithms = algorithms
+        self.input_folder = input_folder
+        self.output_folder = output_folder
+
+    def run_tests(self):
+        for filename in os.listdir(self.input_folder):
+            # Iterate through all inputs
+            if filename.endswith(".txt"):
+                file_path = os.path.join(self.input_folder, filename)
+
+                # Create a map for this input
+                map = Map_3D()
+                map.create(file_path)
+                
+                # Create a displayer for this input
+                displayer = Displayer_3D(map)
+
+                # Find path with each iterated algorithm
+                for algorithm_class in self.algorithms:
+                    algorithm_name = algorithm_class.name
+                    print(f"Running tests for {algorithm_name}...")
+
+                    # Find path
+                    path, cost = self.run_test(algorithm_class, map)
+
+                    # Display
+                    displayer.draw_3d(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}", self.output_folder)
+
+    def run_test(self, algorithm_class, map):
+        # Run the algorithm
+        algorithm_instance = algorithm_class(map)
+        path = algorithm_instance.find_path()
+        cost = algorithm_instance.find_cost()
+
+        return path, cost
+    
 algorithms = [Dijkstra_wrapper]
-tester = AlgorithmTester_3D(algorithms, './Test_cases_3D')
+tester = AlgorithmTester_3D(algorithms, './Test_cases_3D', './Results_3D')
 tester.run_tests()

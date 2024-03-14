@@ -140,7 +140,7 @@ class Displayer:
     def draw_grid(self):
         plt.grid(which="both", color="black", linewidth=0.5, alpha=0.2)
 
-    def draw(self, path, cost, name):
+    def draw(self, path, cost, name, output_folder):
         matplotlib.use('Agg')
         fig, ax = plt.subplots()
 
@@ -160,26 +160,31 @@ class Displayer:
         self.draw_grid()
 
         plt.title(f"{name} - Cost: {cost}")
-        if os.path.exists("Results/") is False:
-            os.makedirs("Results/")
-        plt.savefig(f"Results/{name}.png")
+
+        # Save plot
+        if os.path.exists(f"{output_folder}/") == False:
+            os.makedirs(f"{output_folder}/")
+        plt.savefig(f"{output_folder}/{name}.png")
         plt.close()
 
 class AlgorithmTester:
-    def __init__(self, algorithms, map_folder):
+    '''Pass into this class list of algorithm classes that you want to run, 
+    source test case folder and destination folder used to store all results'''
+    def __init__(self, algorithms, input_folder, ouput_folder):
         self.algorithms = algorithms
-        self.map_folder = map_folder
+        self.input_folder = input_folder
+        self.output_folder = ouput_folder
 
     def run_tests(self):
-        for filename in os.listdir(self.map_folder):
+        for filename in os.listdir(self.input_folder):
             # Iterate through all inputs
             if filename.endswith(".txt"):
-                file_path = os.path.join(self.map_folder, filename)
+                file_path = os.path.join(self.input_folder, filename)
 
                 # Create a map for this input
                 map = Map()
                 map.create(file_path)
-                
+
                 # Create a displayer for this input
                 displayer = Displayer(map)
 
@@ -192,7 +197,7 @@ class AlgorithmTester:
                     path, cost = self.run_test(algorithm_class, map)
 
                     # Display
-                    displayer.draw(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}")
+                    displayer.draw(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}", self.output_folder)
 
     def run_test(self, algorithm_class, map):
         # Run the algorithm
@@ -202,7 +207,12 @@ class AlgorithmTester:
 
         return path, cost
     
-
+# '''LEVEL 1 & 2'S TESTING SECTION'''
 # algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
-# tester = AlgorithmTester(algorithms, '../Test_cases')
+# tester = AlgorithmTester(algorithms, 'Test_cases_level1&2', 'Results_level1&2')
 # tester.run_tests()
+
+# '''LEVEL 3'S TESTING SECTION'''
+# algorithms_ = [aStar_wrapper]
+# tester_ = AlgorithmTester(algorithms_, 'Test_cases_level3', 'Results_level3')
+# tester_.run_tests()

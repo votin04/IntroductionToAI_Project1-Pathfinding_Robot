@@ -72,16 +72,9 @@ class Displayer_3D:
 
     def draw_3d(self, path, cost, name, output_folder):
         # Create a 3D scatter plot for the cube
-        # fig = go.Figure(data=[go.Scatter3d(x=[0]*self.map.map_info.map_limits['col_num'],
-        #                                 y=list(range(self.map.map_info.map_limits['row_num']))*self.map.map_info.map_limits['col_num'],
-        #                                 z=np.repeat(list(range(self.map.map_info.map_limits['height'])), self.map.map_info.map_limits['col_num']),
-        #                                 mode='markers',
-        #                                 marker=dict(size=5,
-        #                                             color=self.cube.flatten(),
-        #                                             colorscale='plasma'))])
         fig = go.Figure(data=[go.Scatter3d(x=[]*self.map.map_info.map_limits['col_num'],
                                         y=[]*self.map.map_info.map_limits['row_num'],
-                                        z=[]*self.map.map_info.map_limits['height'])])
+                                        z=[0]*self.map.map_info.map_limits['height'])])
 
         # Draw obstacles
         self.draw_shape_3D(fig)

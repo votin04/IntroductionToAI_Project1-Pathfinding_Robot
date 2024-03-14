@@ -27,8 +27,6 @@ des = searchPath.reverse_tuple(static_map.map_info.points['end'])
 
 baseline_path = searchPath.aStar(src, des)
 
-print(baseline_path)
-
 # Display the static matrix
 matplotlib.use('Agg')
 plt.imshow(static_map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
@@ -36,13 +34,21 @@ plt.imshow(static_map.matrix, cmap='viridis', interpolation='nearest', origin='l
 plt.title('Map Matrix')
 plt.savefig("static_map.png")
 
-while True:
+renderPath = []
+
+for step in baseline_path:
     for dx, dy in directions:
         obstacles = dynamic_map.map_info.update_obstacles(dx, dy)
         dynamic_map.createWithNewObstacles(obstacles)
+
+        renderPath.append(step)
+        path = np.array(renderPath)
+        plt.plot(path[:, 1], path[:, 0], 'go', markersize=5, alpha=1)
+
         # Display the dynamic matrix
         matplotlib.use('Agg')
         plt.imshow(dynamic_map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+
         # Add colorbar for reference
         plt.title('Map Matrix')
         plt.savefig("dynamic_map.png")

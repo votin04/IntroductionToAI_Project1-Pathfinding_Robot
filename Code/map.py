@@ -26,16 +26,17 @@ class Map:
         self.map_info.obstacles = obstacles
         self.matrix = self.generator.create_map()
 
+
 '''Class used to store all necessary information about a map read from a text file'''
 class MapInfo:
     def __init__(self) -> None:
         self.map_limits = {'col_num': 0, 'row_num': 0} # dictionary of numbers of column units and row units
         self.points = {'start': (0, 0), 
                        'end': (0, 0), 
-                       'passing_points': []} # dictionary of points: 1st point is start, 2nd point is end
+                       'passing_points': []} # dictionary of points
         self.obstacles = [] # list of shapes where each shape is a list of point tuple
     
-    def update_obstacle(self, dx, dy):
+    def update_obstacles(self, dx, dy):
         for shape in self.obstacles:
             for i, (x, y) in enumerate(shape):
                 # Update the coordinates in the list directly
@@ -161,3 +162,15 @@ class MapGenerator:
 
         return map_matrix
 
+    def extendObstacleBounds(self, map : Map):
+        directions = [(1,0), (0,-1), (-1,0), (0,1) ]
+        temp_map_info = MapInfo() # A temporary class to store adjusted obstacles's information
+        temp_map_info.obstacles = map.map_info.obstacles
+
+        # Iterate through all directions
+        for dx, dy in directions:
+            obstacles = temp_map_info.update_obstacles(dx, dy)
+            for obstacle in obstacles:
+                self.draw_shape(obstacle, map.matrix)
+
+        return map

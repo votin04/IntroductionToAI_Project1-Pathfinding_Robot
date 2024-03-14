@@ -20,8 +20,9 @@ class aStar_wrapper:
         src = self.map.map_info.points['start']
         des = self.map.map_info.points['end']
         points = self.map.map_info.points['passing_points']
+        max_row, max_col = (self.map.map_info.map_limits['row_num'], self.map.map_info.map_limits['col_num'])
 
-        path_finder = AStar(matrix, src, des, points)
+        path_finder = AStar(matrix, src, des, points, (max_row, max_col))
         
         self.path = path_finder.findPickUp()
 

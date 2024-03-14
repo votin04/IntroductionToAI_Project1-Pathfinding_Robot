@@ -3,6 +3,7 @@ from map import *
 import math
 import heapq
 import itertools
+
 class Cell:
     def __init__(self):
         self.parent_i = 0
@@ -216,7 +217,8 @@ class AStar:
 
         for i in range(len(res) - 1):
             path = self.aStar(res[i], res[i+1])
-            finalPath = finalPath + path[1:]
+            if path is not None:
+                finalPath = finalPath + path[1:]
 
         return finalPath
 
@@ -239,7 +241,7 @@ class AStar:
 # src = searchPath.reverse_tuple(src)
 # des = searchPath.reverse_tuple(des)
 
-path = searchPath.findPickUp()
+# path = searchPath.findPickUp()
 # path = searchPath.aStar(src, des)
 # #path = searchPath.findPickUp()
 # path = searchPath.aStar(src, des)

@@ -2,8 +2,6 @@ from map import *
 import numpy as np
 import heapq
 from map import *
- 
-
 
 class Dijkstra:
     def __init__(self, graph: np.array):

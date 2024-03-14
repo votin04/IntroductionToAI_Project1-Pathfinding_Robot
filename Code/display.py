@@ -5,7 +5,6 @@ from aStar import *
 
 import os
 import matplotlib.pyplot as plt
-import copy
 import numpy as np
 
 # A wrapper for aStar algorithm
@@ -20,20 +19,11 @@ class aStar_wrapper:
         matrix = self.map.matrix
         src = self.map.map_info.points['start']
         des = self.map.map_info.points['end']
-        points = [self.map.map_info.points['start'], self.map.map_info.points['end'], self.map.map_info.points['passing_points']]
-        path_finder = AStar(matrix, points)
-
-        src = path_finder.reverse_tuple(src)
-        des = path_finder.reverse_tuple(des)
-
         points = self.map.map_info.points['passing_points']
 
-        searchPath = AStar(self.map.matrix, src, des, points)
+        path_finder = AStar(matrix, src, des, points)
         
-        src = searchPath.reverse_tuple(src)
-        des = searchPath.reverse_tuple(des)
-        
-        self.path = searchPath.aStar(src, des)
+        self.path = path_finder.findPickUp()
 
         if self.path is not None:
             for i in range(len(self.path)):
@@ -135,9 +125,12 @@ class Displayer:
             shortest_path = np.array(path)
             ax.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=1)
 
-            # Mark start and end points with 'S' and 'G'
-            plt.text(shortest_path[0][0], shortest_path[0][1], 'S', color='white', fontsize=12, ha='center', va='center')
-            plt.text(shortest_path[len(shortest_path) - 1][0], shortest_path[len(shortest_path) - 1][1], 'G', color='white', fontsize=12, ha='center', va='center')
+        start = self.map.map_info.points['start']        
+        end = self.map.map_info.points['end']        
+
+        # Mark start and end points with 'S' and 'G'
+        plt.text(start[0], start[1], 'S', color='white', fontsize=12, ha='center', va='center')
+        plt.text(end[0], end[1], 'G', color='white', fontsize=12, ha='center', va='center')
 
     def set_axis(self):
         # Set ticks and labels for x-axis and y-axis
@@ -167,11 +160,13 @@ class Displayer:
         self.draw_grid()
 
         plt.title(f"{name} - Cost: {cost}")
+        if os.path.exists("Results/") is False:
+            os.makedirs("Results/")
         plt.savefig(f"Results/{name}.png")
         plt.close()
 
 class AlgorithmTester:
-    def __init__(self, algorithms, map_folder='./Test_cases'):
+    def __init__(self, algorithms, map_folder):
         self.algorithms = algorithms
         self.map_folder = map_folder
 
@@ -208,6 +203,6 @@ class AlgorithmTester:
         return path, cost
     
 
-algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
-tester = AlgorithmTester(algorithms)
-tester.run_tests()
+# algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
+# tester = AlgorithmTester(algorithms, '../Test_cases')
+# tester.run_tests()

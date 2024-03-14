@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
+
 '''Map class
 Map is computationally interpreted as a matrix:
     empty cell: marked as 0.
@@ -15,11 +16,15 @@ class Map:
     def __init__(self) -> None:
         self.matrix = None
         self.map_info = MapInfo()
+        self.generator = MapGenerator()
 
     def create(self, file_name):
-        generator = MapGenerator()
-        self.map_info = generator.import_file(file_name)
-        self.matrix = generator.create_map()
+        self.map_info = self.generator.import_file(file_name)
+        self.matrix = self.generator.create_map()
+    
+    def createWithNewObstacles(self, obstacles):
+        self.map_info.obstacles = obstacles
+        self.matrix = self.generator.create_map()
 
 '''Class used to store all necessary information about a map read from a text file'''
 class MapInfo:
@@ -30,6 +35,14 @@ class MapInfo:
                        'passing_points': []} # dictionary of points: 1st point is start, 2nd point is end
         self.obstacles = [] # list of shapes where each shape is a list of point tuple
     
+    def update_obstacle(self, dx, dy):
+        for shape in self.obstacles:
+            for i, (x, y) in enumerate(shape):
+                # Update the coordinates in the list directly
+                self.obstacles[self.obstacles.index(shape)][i] = (x + dx, y + dy)
+        return self.obstacles
+
+
     def set_map_limits(self, col_num, row_num):
         self.map_limits['col_num'] = col_num
         self.map_limits['row_num'] = row_num
@@ -130,7 +143,6 @@ class MapGenerator:
     def create_map(self):
         # Initialize a matrix with zeros
         map_matrix = np.zeros((self.map_info.map_limits['row_num'], self.map_info.map_limits['col_num']), dtype=int)
-
         # Mark start point
         start_point = self.map_info.points['start']
         map_matrix[start_point[1], start_point[0]] = 2
@@ -149,18 +161,3 @@ class MapGenerator:
 
         return map_matrix
 
-
-# '''TESTING SECTION'''                  
-# map = Map()
-# map.create("Test_cases/no_path.txt")
-# print(map.map_info.map_limits)
-# print(map.map_info.points)
-# print(map.map_info.obstacles)
-
-# # Display the matrix
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-# # Add colorbar for reference
-# plt.colorbar()
-# plt.title('Map Matrix')
-# plt.savefig("map.png")

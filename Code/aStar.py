@@ -245,12 +245,12 @@ class AStar:
 # src = searchPath.reverse_tuple(src)
 # des = searchPath.reverse_tuple(des)
 
-path = searchPath.findPickUp()
-# path = searchPath.aStar(src, des)
+# path = searchPath.findPickUp()
+# # path = searchPath.aStar(src, des)
 
-# Display
-matplotlib.use('Agg')
-plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
+# # Display
+# matplotlib.use('Agg')
+# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
 
 # shortest_path = np.array(path)
 # plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)

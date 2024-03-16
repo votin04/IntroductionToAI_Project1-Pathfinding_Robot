@@ -165,8 +165,12 @@ class Displayer:
         # Save plot
         if os.path.exists(f"{output_folder}/") == False:
             os.makedirs(f"{output_folder}/")
-        plt.savefig(f"{output_folder}/{name}.png")
+
+        image_name = f"{output_folder}/{name}.png"
+        plt.savefig(image_name)
         plt.close()
+
+        return image_name
 
 class AlgorithmTester:
     '''Pass into this class list of algorithm classes that you want to run, 

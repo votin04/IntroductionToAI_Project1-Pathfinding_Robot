@@ -222,8 +222,7 @@ class AStar:
 
         return finalPath
 
-    
-# '''TESTING SECTION'''  
+      
 # '''TESTING SECTION'''  
 
 # ''''

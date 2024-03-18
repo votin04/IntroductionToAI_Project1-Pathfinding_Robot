@@ -26,7 +26,6 @@ class Map:
         self.map_info.obstacles = obstacles
         self.matrix = self.generator.create_map()
 
-
 '''Class used to store all necessary information about a map read from a text file'''
 class MapInfo:
     def __init__(self) -> None:

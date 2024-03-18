@@ -1,7 +1,7 @@
 from map import *
 from GBFS import *
 from Dijkstra import *
-from AStar import *
+from aStar import *
 
 import os
 import matplotlib.pyplot as plt
@@ -96,7 +96,7 @@ class GBFS_wrapper:
         else:
             return 0
 
-# Class used for display features
+# Class used to display 2D output
 class Displayer:
     map = Map()
 
@@ -170,55 +170,4 @@ class Displayer:
         plt.savefig(image_name)
         plt.close()
 
-        return image_name
-
-class AlgorithmTester:
-    '''Pass into this class list of algorithm classes that you want to run, 
-    source test case folder and destination folder used to store all results'''
-    def __init__(self, algorithms, input_folder, ouput_folder):
-        self.algorithms = algorithms
-        self.input_folder = input_folder
-        self.output_folder = ouput_folder
-
-    def run_tests(self):
-        for filename in os.listdir(self.input_folder):
-            # Iterate through all inputs
-            if filename.endswith(".txt"):
-                file_path = os.path.join(self.input_folder, filename)
-
-                # Create a map for this input
-                map = Map()
-                map.create(file_path)
-
-                # Create a displayer for this input
-                displayer = Displayer(map)
-
-                # Find path with each iterated algorithm
-                for algorithm_class in self.algorithms:
-                    algorithm_name = algorithm_class.name
-                    print(f"Running tests for {algorithm_name}...")
-
-                    # Find path
-                    path, cost = self.run_test(algorithm_class, map)
-
-                    # Display
-                    displayer.draw(path, cost, f"{algorithm_name}_{filename.removesuffix('.txt')}", self.output_folder)
-
-    def run_test(self, algorithm_class, map):
-        # Run the algorithm
-        algorithm_instance = algorithm_class(map)
-        path = algorithm_instance.find_path()
-        cost = algorithm_instance.find_cost()
-
-        return path, cost
-    
-    
-# '''LEVEL 1 & 2'S TESTING SECTION'''
-# algorithms = [aStar_wrapper, Dijkstra_wrapper, GBFS_wrapper]
-# tester = AlgorithmTester(algorithms, 'Test_cases_level1&2', 'Results_level1&2')
-# tester.run_tests()
-
-# '''LEVEL 3'S TESTING SECTION'''
-# algorithms_ = [aStar_wrapper]
-# tester_ = AlgorithmTester(algorithms_, 'Test_cases_level3', 'Results_level3')
-# tester_.run_tests()
+        return image_name  

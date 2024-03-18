@@ -77,29 +77,33 @@ class Displayer_dynamic:
         self.map.generator = map.generator
 
     def draw(self, path, cost, name, output_folder):
-        displayer = Displayer(self.map)
+        if len(path) > 1:
+            displayer = Displayer(self.map)
 
-        directions = [(1,0), (0,-1), (-1,0), (0,1)]
-        renderPath = []
-        images = []
+            directions = [(1,0), (0,-1), (-1,0), (0,1)]
+            renderPath = []
+            images = []
 
-        cnt = 0
-        for step in path:
-            cnt += 1
-            for dx, dy in directions:
-                obstacles = self.map.map_info.update_obstacles(dx, dy)
-                self.map.createWithNewObstacles(obstacles)
+            cnt = 0
+            for step in path:
+                cnt += 1
+                for dx, dy in directions:
+                    obstacles = self.map.map_info.update_obstacles(dx, dy)
+                    self.map.createWithNewObstacles(obstacles)
 
-                renderPath.append(step)
-                image = displayer.draw(renderPath, cnt, " ", "Results_dynamic")
+                    renderPath.append(step)
+                    image = displayer.draw(renderPath, cnt, " ", "Results_level4")
 
-                images.append(imageio.v2.imread(image))    
+                    images.append(imageio.v2.imread(image))    
 
-        if os.path.exists(f"{output_folder}/") == False:
-            os.makedirs(f"{output_folder}/")
+            if os.path.exists(f"{output_folder}/") == False:
+                os.makedirs(f"{output_folder}/")
 
-        video_name = f"{output_folder}/{name}_dynamic.gif"
+            video_name = f"{output_folder}/{name}_dynamic.gif"
 
-        imageio.v2.mimsave(video_name, images, duration=500)
-        
-        os.remove(image)
+            imageio.v2.mimsave(video_name, images, duration=500)
+            
+            os.remove(image)
+
+        else:
+            print("No path found. Cannot create a gif.")

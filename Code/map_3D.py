@@ -38,7 +38,6 @@ class MapInfo_3D(MapInfo):
                 points.append((point[0], point[1]))
             self.add_obstacle(points)
 
-
 '''
 MapGenerator_3D inherits from MapGenerator:
 - Use MapInfo_3D class for map_info

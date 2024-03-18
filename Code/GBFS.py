@@ -110,37 +110,3 @@ class GBFS:
                         visited.add((x, y))  # Mark the current point as visited
                         parent[(x, y)] = current
         return None
-
-
-# '''TESTING SECTION'''     
-# # Create a map             
-# map = Map()
-# map.create('./Test_cases/test1.txt')
-
-# #Find a path
-# matrix = map.matrix
-# limits = (map.map_info.map_limits['col_num'], map.map_info.map_limits['row_num'])
-# src = map.map_info.points['start']
-# des = map.map_info.points['end']
-# polygons = map.map_info.obstacles
-
-# gbfs = GBFS(matrix, limits, src, des, polygons)
-
-# path, _ = gbfs.greedy_best_first_search()
-# cost = gbfs.total_cost(path)
-
-# # # Display the result
-# # # print("Path:", path)
-# # # print("Cost:", cost)
-
-# # Display
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-
-# shortest_path = np.array(path)
-# plt.plot(shortest_path[:, 0], shortest_path[:, 1], 'go', markersize=5, alpha=0.5)
-
-# # Add colorbar for reference
-# plt.colorbar()
-# plt.title('Map Matrix')
-# plt.savefig("GBFS.png")

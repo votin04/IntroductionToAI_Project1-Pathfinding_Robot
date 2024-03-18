@@ -223,39 +223,4 @@ class AStar:
         return finalPath
 
       
-# '''TESTING SECTION'''  
-
-# ''''
-#     To use the AStar Function please use the reverse_tuple from AStar class in order to use the aStar function
-# '''
-# # Create a map             
-# map = Map()
-# map.create("Test_cases/test1.txt")
-# matrix = map.matrix
-# points = map.map_info.points['passing_points']
-# src = map.map_info.points['start']
-# des = map.map_info.points['end']
-
-# searchPath = AStar(matrix, src, des, points)
-# searchPath = AStar(matrix, src, des, points)
-
-# src = searchPath.reverse_tuple(src)
-# des = searchPath.reverse_tuple(des)
-# src = searchPath.reverse_tuple(src)
-# des = searchPath.reverse_tuple(des)
-
-# path = searchPath.findPickUp()
-# # path = searchPath.aStar(src, des)
-
-# # Display
-# matplotlib.use('Agg')
-# plt.imshow(map.matrix, cmap='viridis', interpolation='nearest', origin='lower')
-
-# shortest_path = np.array(path)
-# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
-# shortest_path = np.array(path)
-# plt.plot(shortest_path[:, 1], shortest_path[:, 0], 'go', markersize=5, alpha=0.5)
-
-# plt.title('Map Matrix')
-# plt.savefig("aStar.png")
 

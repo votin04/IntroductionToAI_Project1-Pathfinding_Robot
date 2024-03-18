@@ -1,4 +1,6 @@
 from display import *
+from algorithm_wrappers import *
+from display_dynamic import *
 
 '''Pass into this class a map class, list of algorithm classes that you want to run, displayer class used to draw output,
 source test case folder and destination folder used to store all results'''
@@ -27,8 +29,14 @@ class AlgorithmRunner:
                 # Print prompt
                 print(f"Finding path with {algorithm_name} algorithm...")
 
-                # Find path
-                path, cost = self.run_algorithm(self.algorithm_class, map)
+                # Find path in dynamic map
+                if self.displayer_class == Displayer_dynamic:
+                    algorithm_instance = FindPathInDynamicMap_wrapper(map, self.algorithm_class)
+                    path = algorithm_instance.find_path()
+                    cost = algorithm_instance.find_cost()
+                else:
+                    # Find path in normal map
+                    path, cost = self.run_algorithm(self.algorithm_class, map)
 
                 result_name = os.path.basename(self.input_file)
                 # Display

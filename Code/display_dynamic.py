@@ -50,7 +50,6 @@
 
     
 import os
-import time
 from map import *
 from display import Displayer
 import imageio
@@ -74,6 +73,8 @@ class Displayer_dynamic:
         self.map.matrix[des[1]][des[0]] = 1
         for point in passing:
             self.map.matrix[point[1]][point[0]] = 1
+
+        self.map.generator = map.generator
 
     def draw(self, path, cost, name, output_folder):
         displayer = Displayer(self.map)

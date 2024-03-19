@@ -34,7 +34,7 @@ class Displayer_3D:
                 y=y,
                 z=z,
                 color='orange',  # Adjust the color as needed
-                opacity=0.5,
+                opacity=1,
                 alphahull=0  # Disable alpha hull to ensure solid fill
             ))
 

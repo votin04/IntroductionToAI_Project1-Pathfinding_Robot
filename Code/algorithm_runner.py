@@ -20,6 +20,10 @@ class AlgorithmRunner:
                 map = self.map_class()
                 map.create(self.input_file)
 
+                # If input has passing points, we just run AStar, not any other algorithms
+                if map.map_info.points['passing_points'] and self.algorithm_class != aStar_wrapper:
+                    raise Exception('The program just runs A* algorithm for input having check points.')
+
                 # Create a displayer for this input
                 displayer = self.displayer_class(map)
 

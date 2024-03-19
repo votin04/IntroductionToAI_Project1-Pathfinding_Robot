@@ -35,7 +35,8 @@ class MapInfo_3D(MapInfo):
         for obstacle in self.obstacles_3D:
             points = []
             for point in obstacle:
-                points.append((point[0], point[1]))
+                if (point[2] == 0):
+                    points.append((point[0], point[1]))
             self.add_obstacle(points)
 
 '''
@@ -47,12 +48,16 @@ class MapGenerator_3D(MapGenerator):
     def __init__(self) -> None:
         self.map_info = MapInfo_3D()
 
-    def import_file(self, file_name) -> MapInfo:
+    def import_file(self, file_name) -> MapInfo_3D:
         with open(file_name, 'r') as file:
             lines = file.readlines()
 
         # Read map limits
         map_limits = lines[0].strip().split(',')
+        
+        # Check if there is the height value
+        if (len(map_limits) != 3):
+                raise Exception("Invalid format: Map limits seem not to have height value.")
         self.map_info.set_map_limits(int(map_limits[0]), int(map_limits[1]), int(map_limits[2]))
 
         # Read start points, end points
@@ -73,6 +78,11 @@ class MapGenerator_3D(MapGenerator):
         current_line = 3
         for _ in range(num_obstacles):
             coordinates = lines[current_line].strip().split(',')
+
+            # Check if coordinates are interpreted in 3D dimension
+            if (len(coordinates) % 3 != 0):
+                raise Exception("Invalid format: The vertices seems to be interpreted as 2D points.")
+
             shape = [(int(coordinates[i]), int(coordinates[i + 1]), int(coordinates[i + 2])) for i in range(0, len(coordinates), 3)]
             self.map_info.add_obstacle_3D(shape)
             current_line += 1

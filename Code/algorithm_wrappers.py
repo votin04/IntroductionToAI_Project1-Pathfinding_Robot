@@ -10,7 +10,7 @@ class aStar_wrapper:
     name = 'AStar'
 
     def __init__(self, map : Map) -> None:
-        self.map = map
+        self.map = copy.deepcopy(map)
         self.name = 'AStar'
 
     def find_path(self) -> list :
@@ -41,7 +41,7 @@ class Dijkstra_wrapper:
     name = 'Dijkstra'
 
     def __init__(self, map : Map) -> None:
-        self.map = map
+        self.map = copy.deepcopy(map)
 
     def find_path(self) -> list :
         dijkstra = Dijkstra(self.map.matrix)
@@ -70,7 +70,7 @@ class GBFS_wrapper:
     name = 'GBFS'
 
     def __init__(self, map : Map) -> None:
-        self.map = map
+        self.map = copy.deepcopy(map)
 
     def find_path(self) -> list :
         limits = (self.map.map_info.map_limits['col_num'], self.map.map_info.map_limits['row_num'])

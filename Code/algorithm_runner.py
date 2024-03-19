@@ -39,6 +39,7 @@ class AlgorithmRunner:
                     path, cost = self.run_algorithm(self.algorithm_class, map)
 
                 result_name = os.path.basename(self.input_file)
+                
                 # Display
                 output_path = displayer.draw(path, cost, f"{algorithm_name}_{result_name.removesuffix('.txt')}", self.output_folder)
 

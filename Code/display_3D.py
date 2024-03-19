@@ -12,24 +12,6 @@ class Displayer_3D:
         # Copy map_info
         self.map.map_info = map.map_info
 
-        # Create a new similar matrix without obstacles marked
-        self.map.matrix = np.zeros((map.map_info.map_limits['row_num'], map.map_info.map_limits['col_num']), dtype=int)
-        self.cube = np.zeros((map.map_info.map_limits['row_num'], map.map_info.map_limits['col_num'], map.map_info.map_limits['height']), dtype=int)
-
-        src = (map.map_info.points['start'][0], map.map_info.points['start'][1])
-        des = (map.map_info.points['end'][0], map.map_info.points['end'][1])
-        passing = map.map_info.points['passing_points']
-
-        self.map.matrix[src[1]][src[0]] = 1
-        self.map.matrix[des[1]][des[0]] = 1
-
-        self.cube[0][src[1]][src[0]] = 1
-        self.cube[0][des[1]][des[0]] = 1
-
-        for point in passing:
-            self.map.matrix[point[1]][point[0]] = 1
-            self.cube[0][point[1]][point[0]] = 1
-
     def draw_shape_3D(self, fig):
         # Draw obstacles
         for obstacle in self.map.map_info.obstacles_3D:
@@ -52,7 +34,7 @@ class Displayer_3D:
                 y=y,
                 z=z,
                 color='orange',  # Adjust the color as needed
-                opacity=1,
+                opacity=0.5,
                 alphahull=0  # Disable alpha hull to ensure solid fill
             ))
 
@@ -62,12 +44,29 @@ class Displayer_3D:
             x, y, z = shortest_path[:, 0], shortest_path[:, 1], np.zeros_like(shortest_path[:, 1])
             fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode='markers', marker=dict(size=5, color='green', opacity=1)))
 
+        # List to store start, end and passing points to mark them with another color later
+        special_points = []
+
         start = self.map.map_info.points['start']
         end = self.map.map_info.points['end']
+
+        special_points.append(start)
+        special_points.append(end)
 
         # Mark start and end points with 'S' and 'G'
         fig.add_trace(go.Scatter3d(x=[start[0]], y=[start[1]], z=[0], mode='text', text='S', textposition='top center', textfont=dict(size=12, color='red')))
         fig.add_trace(go.Scatter3d(x=[end[0]], y=[end[1]], z=[0], mode='text', text='G', textposition='top center', textfont=dict(size=12, color='red')))
+
+        # Mark passing points with 'Check point' if any
+        for point in self.map.map_info.points['passing_points']:
+            special_points.append(point)
+            fig.add_trace(go.Scatter3d(x=[point[0]], y=[point[1]], z=[0], mode='text', text='Check point', textposition='top center', textfont=dict(size=12, color='blue')))
+        
+        # Color special points
+        for point in special_points:
+            fig.add_trace(go.Scatter3d(x=[point[0]], y=[point[1]], z=[0], mode='markers', marker=dict(size=5, color='blue', opacity=1)))
+        
+        
 
     def draw(self, path, cost, name, output_folder):
         # Create a 3D scatter plot for the cube

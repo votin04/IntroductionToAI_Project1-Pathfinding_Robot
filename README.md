@@ -1,42 +1,50 @@
-# Project1-Pathfinding_Robot
+# Instructions for Using the Program
 
-GENERAL TASKS
+This program is designed to process input files according to specified levels and search algorithms. Below are the instructions on how to use it effectively:
 
-Project 1 - AI 
+## Usage Syntax
 
-NHIỆM VỤ:
--Kim: Mức 1, chọn 1 thuật toán trong tìm kiếm mù hoặc tham lam hoặc heuristic hoặc local search, cài đặt, chạy thử, báo cáo. Lưu ý, chạy thử trường hợp không có
-đường đi.
+The program should be run using the following syntax:
 
--Mức 2:
-+Long: cài 1 thuật toán khác mức 1 trong tìm kiếm mù hoặc tham lam hoặc heuristic hoặc local search
-+Tín: cài 1 thuật toán khác 2 cái trên
-=> Phần chung: Xong 3 thuật toán thì so sánh, nhận xét báo cáo sau
-
--Mức 3: 
-+Tín: thiết kế file input, cài đặt hàm đọc lấy dữ liệu từ file input trả về 1 dictionary ví dụ:{key_1: value_1, key_2: value_2, ..., key_n: value_n}
-+Long, Phúc: tìm thuật toán, cài đặt cách để tổng đường đi là ngắn nhất
-+Tín, Phúc: cài đặt tạo bản đồ từ file input + mức 4
-=> Phần chung: 
-+Báo cáo thuật toán đã áp dụng và quá trình chạy thử cho mức 3
-+Quay video và đính kèm trực tiếp/link vào báo cáo cho mức 4
-
--Mức 5: Nếu còn thời gian và muốn làm <3
+python main.py -filepath <file_path> -level <level_number> -search <search_algorithm>
 
 
-MINUTES HỌP (6/3/2024)
+Where:
+- `-filepath` or `-f`: Specifies the input file path, which can be either a relative or absolute path.
+- `-level` or `-l`: Specifies the level of the project requirements to run (1-5).
+- `-search` or `-s`: Specifies the search algorithm to use. Available options are:
+  - Dijkstra: "dijkstra"
+  - A* search: "astar"
+  - Greedy Best First Search: "gbfs"
 
-TASKS
-1. Thiếu total_cost để compare() - Thành viên làm thuật toán
-2. Tạo grid - Phúc 
-3. Tính trường hợp không có dường đi (sửa input.txt và thuật toán) - Phúc
-    3.1 input ko có đường đi
-    3.2 input sao cho các thuật toán tìm đường khác nhau 
-    3.3 vẽ thêm kết quả total_cost lên hình
-4. Điều chỉnh thuật toán GBFS -> đi xéo - Kim
-5. Iterative Deepening -> Để làm mức 3 - Long
-6. Tìm hiểu về thư viện graphics - Phúc
-7. Viết hàm test tất cả thuật toán - Phúc
+## Notes
 
-DEADLINE: 8/3/2024
+- By default, level 3 only supports the A* search algorithm.
+- Parameters in the file must be compatible with the specified levels, such as having pickup points or not, 2D or 3D maps.
+
+## Examples
+
+### Example 1:
+
+python main.py -f input.txt -l 3
+
+- This command runs the program on the `input.txt` file.
+- It uses the level 3 map.
+- By default, it employs the A* search algorithm.
+
+### Example 2:
+
+python main.py -f input.txt -l 3 -s dijkstra
+
+- This command runs the program on the `input.txt` file.
+- It uses the level 3 map.
+- Since the Dijkstra algorithm is specified, it will display an error message stating that level 3 only supports A* search.
+
+### Example 3:
+
+python main.py -filepath input.txt -level 5 -search gbfs
+
+- This command runs the program on the `input.txt` file.
+- It uses the level 5 map (3D).
+- It utilizes the Greedy Best First Search algorithm.
 
